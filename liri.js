@@ -41,28 +41,32 @@ function runCommand(command){
 
             axios.get("https://rest.bandsintown.com/artists/" + userInput + "/events?app_id=codingbootcamp").then(
                 function(response){
-                    console.log("-------------- GIG GUIDE: " + userInput + " --------------")
-                
-                    for (var i = 0; i <  response.data.length; i++){
-                        var j = i + 1
-                    console.log("\r\nGig " + j + ": ")
-                    console.log("Date: " + moment(response.data[i].datetime).format("DD MM YYYY"))
-                    console.log(response.data[i].venue.name)
-                    console.log(response.data[i].venue.city + ", " + response.data[i].venue.country)
-                    console.log("\r\n------------------------------------")
-                    j++
                     
-                    sendToLog = "-------------- GIG GUIDE: " + userInput + " --------------\r\n"+
-                    "\r\nGig " + j + ": " + "\r\nDate: " + moment(response.data[i].datetime).format("DD MM YYYY") + "\r\n" + 
-                    response.data[i].venue.name + "\r\n" + 
-                    response.data[i].venue.city + ", " + response.data[i].venue.country + "\r\n" +
-                    "\r\n------------------------------------\r\n";
+                        console.log("-------------- GIG GUIDE: " + userInput + " --------------")
+                    
+                        for (var i = 0; i <  response.data.length; i++){
+                            var j = i + 1
+                        console.log("\r\nGig " + j + ": ")
+                        console.log("Date: " + moment(response.data[i].datetime).format("DD MM YYYY"))
+                        console.log(response.data[i].venue.name)
+                        console.log(response.data[i].venue.city + ", " + response.data[i].venue.country)
+                        console.log("\r\n------------------------------------")
+                        j++
+                        
+                        sendToLog = "-------------- GIG GUIDE: " + userInput + " --------------\r\n"+
+                        "\r\nGig " + j + ": " + "\r\nDate: " + moment(response.data[i].datetime).format("DD MM YYYY") + "\r\n" + 
+                        response.data[i].venue.name + "\r\n" + 
+                        response.data[i].venue.city + ", " + response.data[i].venue.country + "\r\n" +
+                        "\r\n------------------------------------\r\n";
 
-                logData(sendToLog);
-                
+                        logData(sendToLog);
+                    
                 }
-            }
-            );
+        })
+        .catch(function(error){
+            console.log("There are no gigs listed for that artist, try again")
+        })
+        
     break;
     
     case "spotify-this-song":
@@ -74,25 +78,30 @@ function runCommand(command){
                 if (err) {
                 return console.log('Error occurred: ' + err);
                 }
-                console.log("-------------- SONG GUIDE: " + userInput + " --------------\r\n")
+                if(data.tracks.items[0] == null){
+                    console.log("Don't know that song, try again.")
+                }else{
 
-                for (var i = 0; i <  data.tracks.items.length; i++){
-                    console.log(data.tracks.items[i].artists[0].name); 
-                    console.log(data.tracks.items[i].name); 
-                    console.log(data.tracks.items[i].external_urls.spotify); 
-                    console.log(data.tracks.items[i].album.name); 
-                    console.log("\r\n------------------------------------\r\n")
-
-                    sendToLog = "-------------- SONG GUIDE: " + userInput + " --------------\r\n"+
-                    data.tracks.items[i].artists[0].name + "\r\n" + 
-                    data.tracks.items[i].name + "\r\n" +
-                    data.tracks.items[i].external_urls.spotify + "\r\n" +
-                    data.tracks.items[i].album.name + " \r\n" + 
-                    "\r\n------------------------------------\r\n";
-
-                logData(sendToLog);
+                    console.log("-------------- SONG GUIDE: " + userInput + " --------------\r\n")
+                    
+                    for (var i = 0; i <  data.tracks.items.length; i++){
+                        console.log(data.tracks.items[i].artists[0].name); 
+                        console.log(data.tracks.items[i].name); 
+                        console.log(data.tracks.items[i].external_urls.spotify); 
+                        console.log(data.tracks.items[i].album.name); 
+                        console.log("\r\n------------------------------------\r\n")
+                        
+                        sendToLog = "-------------- SONG GUIDE: " + userInput + " --------------\r\n"+
+                        data.tracks.items[i].artists[0].name + "\r\n" + 
+                        data.tracks.items[i].name + "\r\n" +
+                        data.tracks.items[i].external_urls.spotify + "\r\n" +
+                        data.tracks.items[i].album.name + " \r\n" + 
+                        "\r\n------------------------------------\r\n";
+                        
+                        logData(sendToLog);
+                    }
+                    
                 }
-                
                 });
         break;
 
@@ -102,26 +111,31 @@ function runCommand(command){
             }
             axios.get("http://www.omdbapi.com/?t=" + userInput + "&y=&plot=short&apikey=trilogy").then(
                 function(response) {
-                    console.log("-------------- MOVIE GUIDE: " + userInput + " --------------\r\n") 
-                    console.log(response.data.Title);
-                    console.log("Released: " + response.data.Year);
-                    console.log("IMDB Rating: " + response.data.imdbRating);
-                    console.log(response.data.Ratings[1].Source + " Rating: " + response.data.Ratings[1].Value);
-                    console.log("Country: " + response.data.Country);
-                    console.log("Language: " + response.data.Language);
-                    console.log("Plot: " + response.data.Plot);
-                    console.log("Starring: " + response.data.Actors); 
-                    console.log("\r\n------------------------------------\r\n");
-                    
-                    sendToLog = "-------------- MOVIE GUIDE: " + userInput + " --------------\r\n"+
+
+                    if(response.data.Title == null){
+                        console.log("Don't know that movie, try again.")
+                    }else{
+                        console.log("-------------- MOVIE GUIDE: " + userInput + " --------------\r\n") 
+                        console.log(response.data.Title);
+                        console.log("Released: " + response.data.Year);
+                        console.log("IMDB Rating: " + response.data.imdbRating);
+                        console.log(response.data.Ratings[1].Source + " Rating: " + response.data.Ratings[1].Value);
+                        console.log("Country: " + response.data.Country);
+                        console.log("Language: " + response.data.Language);
+                        console.log("Plot: " + response.data.Plot);
+                        console.log("Starring: " + response.data.Actors); 
+                        console.log("\r\n------------------------------------\r\n");
+                        
+                        sendToLog = "-------------- MOVIE GUIDE: " + userInput + " --------------\r\n"+
                         response.data.Title + "\r\nReleased: " + response.data.Year +
                         "\r\nIMDB Rating: " + response.data.imdbRating + "\r\n" +
                         response.data.Ratings[1].Source + " Rating: " + response.data.Ratings[1].Value + 
                         "\r\nCountry: " + response.data.Country + "\r\nLanguage: " + response.data.Language + 
                         "\r\nPlot: " + response.data.Plot + "\r\nStarring: " + response.data.Actors + 
                         "\r\n------------------------------------\r\n";
-
-                    logData(sendToLog);
+                        
+                        logData(sendToLog);
+                }
                 })
         break;              
 
