@@ -8,8 +8,26 @@ var Spotify = require("node-spotify-api");
 var spotify = new Spotify(keys.spotify);
 
 var axios = require("axios");
-var moment = require("moment")
+var moment = require("moment");
 
+var fs = require("fs");
+
+if (command == "do-what-it-says"){
+        fs.readFile("random.txt", "utf8", function(error, data){
+            if (error){
+                return console.log(error);
+            }
+            var dataArr = data.split(",");
+            command = dataArr[0];
+            userInput = dataArr[1]
+            runCommand(command)
+        })
+}else{
+    
+    runCommand(command)
+}
+
+function runCommand(command){
 switch (command){
     case "concert-this":
 
@@ -64,8 +82,9 @@ switch (command){
                 console.log("\r\n------------------------------------\r\n")
                 
             })
-              
+    break;              
 
+    
 }
-
+}
 
