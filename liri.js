@@ -1,23 +1,24 @@
 require("dotenv").config();
-
-var command = process.argv[2];
-var userInput = process.argv[3];
-
+//Node modules
 var keys = require("./keys");
 var Spotify = require("node-spotify-api");
 var spotify = new Spotify(keys.spotify);
 
 var axios = require("axios");
 var moment = require("moment");
-
 var fs = require("fs");
+
+//App's variables
+var command = process.argv[2];
+var userInput = process.argv[3];
 var sendToLog;
 
+//Missing inputs validation
 if (command == null){
     return console.log("Enter a command & search term to try again")
 }
 
-
+//Do what it says output
 if (command == "do-what-it-says"){
         fs.readFile("random.txt", "utf8", function(error, data){
             if (error){
@@ -32,6 +33,7 @@ if (command == "do-what-it-says"){
     runCommand(command)
 }
 
+//Function to run the 3 outputs
 function runCommand(command){
     switch (command){
         case "concert-this":
@@ -62,6 +64,7 @@ function runCommand(command){
                         logData(sendToLog);
                     
                 }
+                console.log("This data was added to the log file");
         })
         .catch(function(error){
             console.log("There are no gigs listed for that artist, try again")
@@ -100,7 +103,7 @@ function runCommand(command){
                         
                         logData(sendToLog);
                     }
-                    
+                    console.log("This data was added to the log file");
                 }
                 });
         break;
@@ -109,6 +112,7 @@ function runCommand(command){
             if (userInput == null){
                 return console.log("Enter a search term to try again")
             }
+
             axios.get("http://www.omdbapi.com/?t=" + userInput + "&y=&plot=short&apikey=trilogy").then(
                 function(response) {
 
@@ -135,13 +139,14 @@ function runCommand(command){
                         "\r\n------------------------------------\r\n";
                         
                         logData(sendToLog);
+                        console.log("This data was added to the log file");
                 }
+                
                 })
         break;              
 
         default:
-            console.log("Unknown command, try again")
-        
+            console.log("Unknown command, try again");
     }
 }
 
@@ -150,7 +155,7 @@ fs.appendFile("log.txt", sendToLog, function(error){
     if(error){
         console.log(error)
     }else{
-        console.log("This data was added to the log file")
+        
     }
 
 })
