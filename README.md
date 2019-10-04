@@ -1,6 +1,4 @@
-# liri-node-app
-
-## Liri Bot
+# Liri Bot
 Liri bot uses node.js, fs module, moment.js, dotenv, Spotify API and Axios to respond to commands for information. The information sourced will then save to a log.txt file.
 
 ## Usage
@@ -27,3 +25,6 @@ Computer's choice
 
 ## Validations
 The bot will prompt when the inputs are missing and will not run. Where the search term is unfound, it will advise of no results found.
+
+## Requirements
+Your own Spotify keys entered into your .env file.
