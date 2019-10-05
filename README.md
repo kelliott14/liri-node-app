@@ -7,22 +7,22 @@ Enter the following commands:
 concert-this bandname
 ```
 To receive a listing of upcoming gigs for that band. Inputs with multiple words need to be contained within "".
-
+##
 ```bash
 spotify-this-song "song title"
 ```
 To receive track information for songs with that title. Inputs with multiple words need to be contained within "".
-
+##
 ```bash
 movie-this "movie title"
 ```
 To receive information for the movie search. Inputs with multiple words need to be contained within "".
-
+##
 ```bash
 do-what-it-says
 ```
 Computer's choice
-
+##
 ## Validations
 The bot will prompt when the inputs are missing and will not run. Where the search term is unfound, it will advise of no results found.
 
